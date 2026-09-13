@@ -155,5 +155,28 @@ public_users.get('/review/:isbn', function (req, res) {
 
 });
 
+// Task 13 - Get book details based on Title using Axios and Async/Await
+public_users.get('/title/:title', async function (req, res) {
+
+    try {
+
+        const title = req.params.title;
+
+        const response = await axios.get(
+            `http://localhost:5000/books/title/${encodeURIComponent(title)}`
+        );
+
+        return res.status(200).json(response.data);
+
+    } catch (error) {
+
+        return res.status(404).json({
+            message: "Books not found with this title"
+        });
+
+    }
+
+});
+
 
 module.exports.general = public_users;
