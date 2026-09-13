@@ -59,7 +59,7 @@ public_users.get('/', async function (req, res) {
 });
 
 
-// Internal route used by Axios for Task 10
+// Internal route for retrieving books
 public_users.get('/books', async function (req, res) {
 
     return res.status(200).json(books);
@@ -67,10 +67,34 @@ public_users.get('/books', async function (req, res) {
 });
 
 
-// Task 2 - Get book details based on ISBN
-public_users.get('/isbn/:isbn', function (req, res) {
+// Task 11 - Get book details based on ISBN using Axios and Async/Await
+public_users.get('/isbn/:isbn', async function (req, res) {
 
-    let isbn = req.params.isbn;
+    try {
+
+        const isbn = req.params.isbn;
+
+        const response = await axios.get(
+            `http://localhost:5000/books/${isbn}`
+        );
+
+        return res.status(200).json(response.data);
+
+    } catch (error) {
+
+        return res.status(404).json({
+            message: "Book not found"
+        });
+
+    }
+
+});
+
+
+// Internal route for retrieving a book by ISBN
+public_users.get('/books/:isbn', async function (req, res) {
+
+    const isbn = req.params.isbn;
 
     return res.status(200).json(books[isbn]);
 
